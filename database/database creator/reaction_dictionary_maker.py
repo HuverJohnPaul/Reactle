@@ -1,3 +1,4 @@
+#made by JP
 reactions_text = """
 C6H12 + 9O2 -> 6CO2 + 6H2O
 2H2 + O2 -> 2H2O
