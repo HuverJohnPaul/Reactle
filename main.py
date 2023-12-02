@@ -11,5 +11,16 @@ import sys
 import pygame
 
 
+#JP
+#innitialize the running veriable to True so that the window stays till running is set to Flase
+running=True
+#never stop this loop
+while running:  
+    #event in pygame is anything happening
+    for event in pygame.event.get():  
+        #if they click the exit button
+        if event.type == pygame.QUIT:  
+           running = False
+
 
 
