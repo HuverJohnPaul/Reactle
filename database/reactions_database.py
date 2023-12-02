@@ -42,7 +42,7 @@ rdict = {
 	'reaction39': {'reactants': ['C3H8', '5O2'], 'products': ['3CO2', '4H2O']},
 	'reaction40': {'reactants': ['FeS', '2HCl'], 'products': ['FeCl2', 'H2S']},
 	'reaction41': {'reactants': ['NaOH', 'H3PO4'], 'products': ['Na3PO4', '3H2O']},
-	'reaction42': {'reactants': ['C2H2', '2.5O2'], 'products': ['2CO', 'H2O']},
+	'reaction42': {'reactants': ['2C2H2', '5O2'], 'products': ['4CO', '2H2O']},
 	'reaction43': {'reactants': ['K2CO3', '2HCl'], 'products': ['2KCl', 'CO2', 'H2O']},
 	'reaction44': {'reactants': ['Mg(OH)2', '2HCl'], 'products': ['MgCl2', '2H2O']},
 	'reaction45': {'reactants': ['C5H12', '8O2'], 'products': ['5CO2', '6H2O']},

@@ -1,1 +1,2 @@
 pygame tutorial from geeks for geeks=https://www.geeksforgeeks.org/pygame-tutorial/?ref=lbp
+pygame tutorial for transpancy=https://nerdparadise.com/programming/pygameblitopacity
