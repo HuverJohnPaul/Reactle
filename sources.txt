@@ -9,4 +9,4 @@ how to use pandas to parse csv file = https://www.datacamp.com/tutorial/pandas-r
 how to centere text=https://stackoverflow.com/questions/65966476/cant-center-text-when-using-colored
 how to colour text=https://www.geeksforgeeks.org/print-colors-python-terminal/
 using re to remove colour codes= https://www.w3resource.com/python-exercises/re/python-re-exercise-45.php
-inline for statments for in if statments= https://scripteverything.com/python-inline-for-loop-with-if-statements/ 
+inline for statments for in if statments= https://www.geeksforgeeks.org/python-check-if-element-exists-in-list-of-lists/
