@@ -125,7 +125,7 @@ def random_reaction():
     return random.choice(list(reactions_database.rdict.keys()))
 
 #print a welcome statement and ask for the user's name
-print_centered("Welcome to Reactle! 🔎⚛︎")
+print_centered("Welcome to Reactle! 🔎 ⚛︎")
 
 print_centered("Your mission is to decipher the atoms involved in a reaction by analyzing the spacings, coefficients, and subscripts.")
 print_centered("After each guess, you will be given a hint as to whether your guess was correct, in the wrong spot, or incorrect.")
@@ -182,7 +182,7 @@ def subed(str_to_sub):
 
 def cencoured_reaction(reaction_str):
     """
-    JP/AG
+    JP/AL
     str -> (str,list)
     returns the cencoured reaction string and the answer list
     the cencoured reaction string is the reaction string with the atoms replaced with numbers in boxes
@@ -505,12 +505,17 @@ def check_guess(guess_list,ans_list):
 print("\n"*2)
 #initialize the play again variable
 play_again="y"
+#initialize the games played variable
+games_played=0
 #loop through the game till the user does not want to play again
 while play_again!="n":
     #print starting greetings
     print("\n"*2)
     print_centered("⚗️"+"  Get ready to play Reactle!"+"🧪")
+    if games_played!=0:
+        print_centered("You have played "+str(games_played)+" games so far!")
     print_centered("You have 6 guesses to figure out all of the atoms in the reaction in the right places.")
+    print_centered("You will be given hints after each guess to help you figure out the correct answer.")
     print_centered("Good luck "+name+"!")
     print_centered("Here is your reaction:")
     reaction_ans_str=random_reaction_str()
@@ -536,33 +541,38 @@ while play_again!="n":
             print_centered(reaction_ans_str)
             #ask the user if they want to play again
             print_centered("would you like to play again? (y/n)",end="")
+            #initialize the play again variable/whipe it if it was used before
             play_again=input("")
-            #loop through the input till the user enters a valid input
-            while play_again!="y" or play_again!="n":
-                print_centered("please enter a valid input (y/n)")
-                print_centered("would you like to play again? (y/n)",end="")
+            games_played+=1
+            #wait for the user to enter a valid input
+            while play_again!="y" and play_again!="n":
+                print_centered("please enter a valid input (y/n)",end="")
                 play_again=input("")
-            #if the user doesnt want to play again
             if play_again=="n":
-                #stop the game
-                running=False
-                #print the credits and thank you message
-                print_centered("Thanks for playing Reactle "+name+", hope you had fun!")
-                print_centered("Play again sometime!")
+                #if the user does not want to play again, print the credits and thank you message
                 print("\n"*5)
+                print_centered("Thanks for playing Reactle "+name+", hope you had fun!")
+                if games_played!=1:
+                    print_centered("You played "+str(games_played)+" games!")
+                print_centered("Play again sometime!")
+                print("\n"*3)
                 print_centered("⭐⭐⭐Credits⭐⭐⭐")
                 print_centered("Coding by: John-Paul, Agnese, Feyi, Madeline")
-                #joke that the user is the play tester
-                print_centered("Play testing by: "+name)
+                #joke that the user is the play tester for the game
+                print_centered("Playing testing by: "+name)
                 #exit the program
                 exit()
+            #if the user wants to play again, break the loop
             else:
                 running=False
                 break
+
+            
         #if the user has not used all their guesses and has not gotten the reaction right and they have made at least one guess
         if guessnumber!=0 and running==True:
             #print the reaction string, the periodic table, and the guess result
             response=coloured_reaction(reaction_ans_str,guess_list,previous_guesses)
+            print("\n"*4)
             print_centered(Style.BRIGHT+"\033[1m"+""+"Guess:"+str(guessnumber)+Style.RESET_ALL+"\033[m")
             print_centered_multiline(response[1])
             print_centered_multiline(response[2])
@@ -575,15 +585,18 @@ while play_again!="n":
             if guessnumber==5:
                 print("\n"*2)
                 #if the user is on their last guess, tell them
-                print_centered("⚠️⚠️⚠️This is your last guess⚠️⚠️⚠️")
+                print_centered("⚠️  ⚠️  ⚠️  This is your last guess  ⚠️  ⚠️  ⚠️")
 
             #if the user is not on their last guess, tell them how many guesses they have left
             else:
-                print_centered("You have"+str(6-guessnumber)+"guesses left")
+                print("\n"*2)
+                print_centered("You have "+str(6-guessnumber)+" guesses left")
             print("\n"*2)
 
         #whipeout/initalize the guess list
         guess_list=[]
+        #initialize the index as 0
+        index=0
         #loop through the range of the length of the answer list, so as to get the right number of inputs
         while index<len(reaction[1]):
             #ask the user for their guess
@@ -616,29 +629,33 @@ while play_again!="n":
                 #tell the user how many guesses it took them
                 print_centered("You got the reaction right in "+str(guessnumber)+" guesses!")
                 print_centered("The reaction was indeed \""+reaction_ans_str+"\" as you have guessed.")
-            #stop the running loop
-            running=False
             #ask the user if they want to play again
             print_centered("would you like to play again? (y/n)",end="")
+            #initialize the play again variable/whipe it if it was used before
+            play_again=input("")
+            #add one to the games played variable
+            games_played+=1
             #wait for the user to enter a valid input
-            while input("")!="y" or input("")!="n":
+            while play_again!="y" and play_again!="n":
+                print_centered("please enter a valid input (y/n)",end="")
                 play_again=input("")
-                print_centered("please enter a valid input (y/n)")
-                if play_again=="n":
-                    #if the user does not want to play again, print the credits and thank you message
-                    print("\n"*5)
-                    print_cente3ed("Thanks for playing Reactle "+name+", hope you had fun!")
-                    print_centered("Play again sometime!")
-                    print("\n"*3)
-                    print_centered("⭐⭐⭐Credits⭐⭐⭐")
-                    print_centered("Coding by: John-Paul, Agnese, Feyi, Madeline")
-                    #joke that the user is the play tester
-                    print_centered("Playing testing by: "+name)
-                    #exit the program
-                    exit()
-                #if the user wants to play again, break the loop
-                else:
-                    running=True
-                    break
-                    
+            if play_again=="n":
+                #if the user does not want to play again, print the credits and thank you message
+                print("\n"*5)
+                print_centered("Thanks for playing Reactle "+name+", hope you had fun!")
+                if games_played!=1:
+                    print_centered("You played "+str(games_played)+" games!")
+                print_centered("Play again sometime!")
+                print("\n"*3)
+                print_centered("⭐⭐⭐Credits⭐⭐⭐")
+                print_centered("Coding by: John-Paul, Agnese, Feyi, Madeline")
+                #joke that the user is the play tester for the game
+                print_centered("Playing testing by: "+name)
+                #exit the program
+                exit()
+            #if the user wants to play again, break the loop
+            else:
+                running=False
+                break
 
+            
