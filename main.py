@@ -3,7 +3,7 @@
 """
 Created on Sat Nov 25 17:47:22 2023
 
-@authors: John-Paul Huver, Agnese, Feyi ,Madeline
+@authors: John-Paul Huver, Agnese, Feyi Ogunwomoju ,Madelyn
 """
 
 #dictionary contating reactions
@@ -22,7 +22,9 @@ import shutil
 # a module that will allow parsing of the csv file 
 import pandas as pd
 def print_centered(text,end="\n"):
+   
     """
+    AL
     (str) -> print
     prints the text in the center of the terminal
     """
@@ -64,6 +66,7 @@ def print_centered(text,end="\n"):
 
 def print_centered_multiline(text,end="\n"):
     """
+    JP
     (str) -> print
     prints the text in the center of the terminal for each line of the text
     """
@@ -118,6 +121,7 @@ def print_centered_multiline(text,end="\n"):
 
 def random_reaction():
     """
+    FO
     () -> list
     returns a random reaction from the dictionary 
     """
@@ -141,6 +145,7 @@ print_centered("welcome "+name+", let's begin.")
 
 def random_reaction_str():
     """
+    MC
     () -> str
     returns a random reaction string from the dictionary
     """
@@ -166,7 +171,7 @@ def random_reaction_str():
 
 def subed(str_to_sub):
     """
-    Agnese
+    AL
     str -> str
     returns a string with the numbers in the string subbed with subscripted numbers
     """
@@ -182,7 +187,7 @@ def subed(str_to_sub):
 
 def cencoured_reaction(reaction_str):
     """
-    JP/AL
+    JP+ AL + FO + MC
     str -> (str,list)
     returns the cencoured reaction string and the answer list
     the cencoured reaction string is the reaction string with the atoms replaced with numbers in boxes
@@ -305,7 +310,7 @@ def cencoured_reaction(reaction_str):
 
 def is_valid_atom(atom_str):
     """
-    Jp
+    JP
     str -> bool
     checks if the atom string is a valid atom of the form of sybmol (case sensitive) or name (case insensitive for the first letter)
     """
@@ -326,7 +331,7 @@ def is_valid_atom(atom_str):
 
 def guess_converter(guess_str):
     """
-    JP
+    AL
     str -> str
     converts the guess string to the proper form of the atom
     eg. converts the name to the symbol if the name is given
@@ -350,7 +355,7 @@ def guess_converter(guess_str):
 
 def coloured_reaction(reaction_str,guess_list,previous_guesses):
     """
-    JP
+    JP + AL + FO + MC
     str,list,dict -> str,str,str,dict
     returns the coloured reaction string, the coloured periodic table, the coloured guess result, and the previous guesses
     reaction_str is the reaction string to be coloured-> is outputted as the reaction string coloured
@@ -489,7 +494,7 @@ def coloured_reaction(reaction_str,guess_list,previous_guesses):
 
 def check_guess(guess_list,ans_list):
     """
-    JP
+    FO + MC + AL + JP
     list,list -> bool
     checks if the guess list is the same as the answer list
     """
@@ -501,7 +506,7 @@ def check_guess(guess_list,ans_list):
     #if all the elements are in the answer list, return true
     return True
 
-#text and instructions for the user and actual game was primarily written by Feyi, Madeline, and Agnese
+#text and instructions for the user and actual game was primarily written by Feyi, Madelyn, and Agnese
 print("\n"*2)
 #initialize the play again variable
 play_again="y"
@@ -557,7 +562,7 @@ while play_again!="n":
                 print_centered("Play again sometime!")
                 print("\n"*3)
                 print_centered("⭐⭐⭐Credits⭐⭐⭐")
-                print_centered("Coding by: John-Paul, Agnese, Feyi, Madeline")
+                print_centered("Coding by: John-Paul, Agnese, Feyi, Madelyn")
                 #joke that the user is the play tester for the game
                 print_centered("Playing testing by: "+name)
                 #exit the program
@@ -579,7 +584,7 @@ while play_again!="n":
             print_centered(response[0])
             #tell the user if their guess was correct, in the wrong spot, or incorrect and tell them how to interprit the colours
             print_centered("Sorry not right, try again.")
-            print_centered("Hint: the"+ Fore.GREEN+" green"+Style.RESET_ALL+" atoms are correct, the "+Fore.YELLOW+"yellow"+Style.RESET_ALL+" are in the reaction but not the right spot, and the "+Fore.RED+"red"+Style.RESET_ALL+" atoms are incorrect.")
+            print_centered("Hint: the"+ Style.BRIGHT+ Fore.GREEN+" green"+Style.RESET_ALL+" atoms are correct, the "+Style.BRIGHT+Fore.YELLOW+"yellow"+Style.RESET_ALL+" are in the reaction but not the right spot, and the "+Fore.RED+Style.BRIGHT+"red"+Style.RESET_ALL+" atoms are incorrect.")
             print_centered("On the periodic table the background colour represents the best past guess for that atom.")
             #tell the user how many guesses they have left
             if guessnumber==5:
@@ -648,7 +653,7 @@ while play_again!="n":
                 print_centered("Play again sometime!")
                 print("\n"*3)
                 print_centered("⭐⭐⭐Credits⭐⭐⭐")
-                print_centered("Coding by: John-Paul, Agnese, Feyi, Madeline")
+                print_centered("Coding by: John-Paul, Agnese, Feyi, Madelyn")
                 #joke that the user is the play tester for the game
                 print_centered("Playing testing by: "+name)
                 #exit the program
