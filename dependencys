@@ -1,2 +1,12 @@
+
+The folowing commands must be run before playing if you have not already installed these modules
 pip install pandas
-pipi install colorama
+pip install colorama
+
+
+standard modules incluided but needed
+(shouldnt need to install these for updated versions of python)
+    re
+    random
+    shutil
+    

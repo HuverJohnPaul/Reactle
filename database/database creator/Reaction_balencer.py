@@ -1,6 +1,7 @@
 #chemical reaction balancer taken from "https://github.com/diegoAchacong/python_chemical_equation_balancer/blob/main/PythonChemEuqationBalancer.py"
 #modified by: John-Paul Huver to be used in the Reactle project for the database"
 #modified to allow for an entire dictionary of reactions to be balanced at once
+#work in progress
 import re
 from sympy import Matrix, lcm
 from reactions_database import rdict

@@ -198,7 +198,7 @@ def cencoured_reaction(reaction_str):
     cencoured_reaction(reaction_str) -> ("2[1]₂ + [2]₂ → 2[1]₂[2]",[[1,"H"],[2,"O"]])
 
     JP- I wrote the function and Agnese helped me debug it and make it more efficient
-    yes I now know how to spell censored and know how to replace, but its too iconic to change
+    yes I now know how to spell censored and know how to replace with ctr F, but its too iconic to change now
     """
     #initialize the cencoured reaction string as a blank string in bright style
     cencoured_reaction_str=""+Style.BRIGHT+""+Style.RESET_ALL
@@ -351,9 +351,22 @@ def guess_converter(guess_str):
     elif guess_str[0].upper()+guess_str[1:] in elemnetdata["Name"].values:
         return elemnetdata[elemnetdata["Name"]==guess_str[0].upper()+guess_str[1:]]["Atomic Symbol"].values[0]
 
+def replace_between(text,begin,end,replacement_text):
+    """
+    JP
+    str,str,str,str -> str
+    replaces the text between begin and end with the replacement_text, inclusive of begin and end
+    repalces at the closest begin to the first stop
+    allows for the replacement of text between two strings without knowing the middle text
+    """
 
 
-def coloured_reaction(reaction_str,guess_list,previous_guesses):
+    #find the end and the first begin from the end going through the string in reverse, eg. closest begin to first end
+    stop=text.find(end)
+    start=text.rfind(begin)
+    return text[:start]+replacement_text+text[stop:]
+
+def coloured_reaction(reaction_str,guess_list,previous_guesses_in):
     """
     JP + AL + FO + MC
     str,list,dict -> str,str,str,dict
@@ -386,6 +399,7 @@ def coloured_reaction(reaction_str,guess_list,previous_guesses):
     #initialize the coloured guess result as a blank string
     coloured_guess_result=""
     #initialize the current guesses as a blank dictionary
+    previous_guesses=previous_guesses_in
     current_guesses={}
     #loop through the range of the length of the answer list
     for i in range(len(ans)):
@@ -393,22 +407,22 @@ def coloured_reaction(reaction_str,guess_list,previous_guesses):
         x=ans[i]
         #correct guess/green
         #if the guess is in the answer list and in the right spot
-        if x[1] in guess_list[i]:
+        if x[1] == guess_list[i]:
             #replace the the correct guess in the cencoured reaction string with green
             cencoured=cencoured.replace("["+str(x[0])+"]",Style.BRIGHT+Fore.GREEN+"["+str(x[0])+"]"+Style.RESET_ALL)
             #replace the correct guess in the periodic table with green text
-            periodic=periodic.replace(" "+str(x[1])+" "," "+Style.RESET_ALL+"\033[m"+""+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.GREEN+str(x[1])+Style.RESET_ALL+"\033[m"+" ")
+            periodic=periodic.replace(" "+str(x[1])+" "," "+Style.RESET_ALL+"\033[m"+""+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.GREEN+str(x[1])+Style.RESET_ALL+"\033[m"+""+" ")
             #add the correct guess to the coloured guess result
             coloured_guess_result+="["+str(x[0])+"] = "+Style.BRIGHT+Fore.GREEN+str(guess_list[i])+Style.RESET_ALL+"   CORRECT \n"
             #if the guess is in the previous guesses, replace the background colour in the periodic table with what it was before
             if guess_list[i] in previous_guesses:
                 if previous_guesses[guess_list[i]]=="R":
-                    periodic=periodic.replace(" "+Style.RESET_ALL+"\033[m"+""+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.GREEN+str(x[1])+Style.RESET_ALL+"\033[m"+" "," "+Style.RESET_ALL+"\033[m"+""+Back.RED+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.GREEN+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
+                    replace_between(periodic," ",str(str(x[1])+Style.RESET_ALL+"\033[m"+" ")," "+Style.RESET_ALL+"\033[m"+""+Back.RED+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.GREEN+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
                 if previous_guesses[guess_list[i]]=="Y":
-                    periodic=periodic.replace(" "+Style.RESET_ALL+"\033[m"+""+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.GREEN+str(x[1])+Style.RESET_ALL+"\033[m"+" "," "+Style.RESET_ALL+"\033[m"+""+Back.YELLOW+Style.BRIGHT+"\033[1m"+'\033[4m'+Fore.GREEN+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
+                    replace_between(periodic," ",str(str(x[1])+Style.RESET_ALL+"\033[m"+" ")," "+Style.RESET_ALL+"\033[m"+""+Back.YELLOW+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.GREEN+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
                 if previous_guesses[guess_list[i]]=="G":
-                    periodic=periodic.replace(" "+Style.RESET_ALL+"\033[m"+""+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.GREEN+str(x[1])+Style.RESET_ALL+"\033[m"+" "," "+Style.RESET_ALL+"\033[m"+""+Back.GREEN+Style.BRIGHT+"\033[1m"+'\033[4m'+Fore.GREEN+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
-                #since background colour represents the best colour replace it always with green
+                    replace_between(periodic," ",str(str(x[1])+Style.RESET_ALL+"\033[m"+" ")," "+Style.RESET_ALL+"\033[m"+""+Back.GREEN+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.GREEN+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
+                #since background colour represents the best colour; replace it always with green
                 previous_guesses[guess_list[i]]="G"
             #if the guess is not in the previous guesses, add it to the previous guesses as green
             else:
@@ -419,25 +433,52 @@ def coloured_reaction(reaction_str,guess_list,previous_guesses):
         #wrong spot/yellow
         #if the guess is in the answer list but not in the right spot
         #does this by in line looping through the answer list and checking if the guess is in the answer list but not in the right spot
-        elif any(guess_list[i] in a for a in ans) and guess_list[i]!=x[1]:
+        elif any(guess_list[i] == a[1] for a in ans):
             #replace the the wrong guess in the cencoured reaction string with yellow
             cencoured=cencoured.replace("["+str(x[0])+"]",Style.BRIGHT+Fore.YELLOW+"["+str(x[0])+"]"+Style.RESET_ALL+"\033[m")
-            #replace the wrong guess in the periodic table with yellow
-            periodic=periodic.replace(" "+str(guess_list[i])+" "," "+Style.RESET_ALL+"\033[m"+Style.BRIGHT+""+"\033[1m"+"\033[4m"+Fore.YELLOW+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
             #add the wrong guess to the coloured guess result
             coloured_guess_result+="["+str(x[0])+"] = "+Style.BRIGHT+Fore.YELLOW+str(guess_list[i])+Style.RESET_ALL+"     WRONG SPOT \n"
+            #check if the guess is in the current guess more then once
+            if guess_list.count(i) > 1:
+                #if it is in the current guess more then once, check if it is correct anywhere in the current guess
+                for a in (guess_list[i:] + guess_list[i+1:]):
+                    for b in ans[1]:
+                        if a==b:
+                            #if it is correct anywhere in the current guess, replace the wrong spot guess in the periodic table with green
+                            periodic=periodic.replace(" "+str(guess_list[i])+" "," "+Style.RESET_ALL+"\033[m"+Style.BRIGHT+""+"\033[1m"+"\033[4m"+Fore.GREEN+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
+                            #raise a flag so the background colour is not changed to yellow if already in previous guesses but correct somewhere else in text
+                            back_flag_green=1
+                        else:
+                            periodic=periodic.replace(" "+str(guess_list[i])+" "," "+Style.RESET_ALL+"\033[m"+Style.BRIGHT+""+"\033[1m"+"\033[4m"+Fore.YELLOW+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
+            #if not in the current guess more then once                
+            else:                
+                #replace the wrong spot guess in the periodic table with yellow
+                periodic=periodic.replace(" "+str(guess_list[i])+" "," "+Style.RESET_ALL+"\033[m"+Style.BRIGHT+""+"\033[1m"+"\033[4m"+Fore.YELLOW+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
+
+
             #if the wrong guess is in the previous guesses, replace the background colour in the periodic table with what it was before
             if guess_list[i] in previous_guesses:
                 #replace the background colour with previous guess colour but keep the text the same for this guess
                 if previous_guesses[guess_list[i]]=="R":
-                    periodic=periodic.replace(" "+Style.RESET_ALL+"\033[m"+Style.BRIGHT+""+"\033[1m"+"\033[4m"+Fore.YELLOW+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" "," "+Style.RESET_ALL+"\033[m"+""+Back.RED+Style.BRIGHT+"\033[1m"+'\033[4m'+Fore.YELLOW+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
+                    replace_between(periodic," ",str(str(x[1])+Style.RESET_ALL+"\033[m"+" ")," "+Style.RESET_ALL+"\033[m"+""+Back.RED+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.YELLOW+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
                 elif previous_guesses[guess_list[i]]=="Y":
-                    periodic=periodic.replace(" "+Style.RESET_ALL+"\033[m"+Style.BRIGHT+""+"\033[1m"+"\033[4m"+Fore.YELLOW+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" "," "+Style.RESET_ALL+"\033[m"+"\033[m"+""+Back.YELLOW+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.YELLOW+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
+                    replace_between(periodic," ",str(str(x[1])+Style.RESET_ALL+"\033[m"+" ")," "+Style.RESET_ALL+"\033[m"+""+Back.YELLOW+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.YELLOW+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
                 elif previous_guesses[guess_list[i]]=="G":
-                    periodic=periodic.replace(" "+Style.RESET_ALL+"\033[m"+Style.BRIGHT+""+"\033[1m"+"\033[4m"+Fore.YELLOW+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" "," "+Style.RESET_ALL+"\033[m"+""+Back.GREEN+Style.BRIGHT+"\033[1m"+'\033[4m'+Fore.YELLOW+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
+                    replace_between(periodic," ",str(str(x[1])+Style.RESET_ALL+"\033[m"+" ")," "+Style.RESET_ALL+"\033[m"+""+Back.GREEN+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.YELLOW+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
                 #since background colour is best guess, only replace if worse guess, eg. if the guess is red, replace it otherwise it is yellow or green so better or equal guess so dont change it in the dictionary
                 if previous_guesses[guess_list[i]]=="R":
-                    previous_guesses[guess_list[i]]="Y"
+                    if back_flag_green != 1:
+                        previous_guesses[guess_list[i]]="Y"
+                #lower the back flag green
+                back_flag_green=0
+            #if the guess is in more then once in the current guess, make the background green if it is correct anywhere
+            elif guess_list.count(i) > 1:
+                for a in (guess_list[i:] + guess_list[i+1:]):
+                    for b in ans[1]:
+                        if a==b:
+                            current_guesses[guess_list[i]]="G"
+                        else:
+                            current_guesses[guess_list[i]]="Y"
             else:
                 #if it is not in the previous guesses, add it to the previous guesses as yellow
                 current_guesses[guess_list[i]]="Y"
@@ -455,14 +496,26 @@ def coloured_reaction(reaction_str,guess_list,previous_guesses):
             #if the wrong guess is in the previous guesses, replace it with red background
             if guess_list[i] in previous_guesses:
                 if previous_guesses[guess_list[i]]=="R":
-                    periodic=periodic.replace(" "+Style.RESET_ALL+"\033[0m"+""+Style.BRIGHT+"\033[1m"+'\033[4m'+Fore.RED+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" "," "+Style.RESET_ALL+"\033[m"+""+Back.RED+Style.BRIGHT+"\033[1m"+'\033[4m'+Fore.RED+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
+                    replace_between(periodic," ",str(str(x[1])+Style.RESET_ALL+"\033[m"+" ")," "+Style.RESET_ALL+"\033[m"+""+Back.RED+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.RED+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
                 elif previous_guesses[guess_list[i]]=="Y":
-                    periodic=periodic.replace(" "+Style.RESET_ALL+"\033[0m"+""+Style.BRIGHT+"\033[1m"+'\033[4m'+Fore.RED+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" "," "+Style.RESET_ALL+"\033[m"+""+Back.YELLOW+Style.BRIGHT+"\033[1m"+'\033[4m'+Fore.RED+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
+                    replace_between(periodic," ",str(str(x[1])+Style.RESET_ALL+"\033[m"+" ")," "+Style.RESET_ALL+"\033[m"+""+Back.YELLOW+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.RED+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
                 elif previous_guesses[guess_list[i]]=="G":
-                    periodic=periodic.replace(" "+Style.RESET_ALL+"\033[0m"+""+Style.BRIGHT+"\033[1m"+'\033[4m'+Fore.RED+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" "+" "," "+Style.RESET_ALL+"\033[m"+""+Back.GREEN+Style.BRIGHT+"\033[1m"+'\033[4m'+Fore.RED+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
+                    replace_between(periodic," ",str(str(x[1])+Style.RESET_ALL+"\033[m"+" ")," "+Style.RESET_ALL+"\033[m"+""+Back.GREEN+Style.BRIGHT+"\033[1m"+"\033[4m"+Fore.RED+str(guess_list[i])+Style.RESET_ALL+"\033[0m"+" ")
                 #since background colour is best guess, never replace it with red if already red since it is the worst guess
 
-            #if the guess is not in the previous guesses, add it to the previous guesses as red
+            #if the guess is in more then once in the current guess, make the background green if it is correct anywhere and yellow if not
+            elif guess_list.count(i) > 1:
+                print("here")
+                for a in (guess_list[i:] + guess_list[i+1:]):
+                    for b in ans[1]:
+                        if a==b:
+                            print("here2")
+                            current_guesses[guess_list[i]]="G"
+                        else:
+                            current_guesses[guess_list[i]]="Y"
+
+
+            #if the guess is not in the previous guesses and not again in the current, add it to the previous guesses as red
             else:
                 current_guesses[guess_list[i]]="R"
 
