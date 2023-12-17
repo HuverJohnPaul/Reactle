@@ -3,7 +3,9 @@
 """
 Created on Sat Nov 25 17:47:22 2023
 
-@authors: John-Paul Huver, Agnese, Feyi Ogunwomoju ,Madelyn
+@authors: 
+Lead coder:John-Paul Huver
+coding support/lead presentation creators: Agnese Lasmane, Feyi Ogunwomoju, and Madelyn Caskie
 """
 
 #dictionary contating reactions
@@ -121,7 +123,7 @@ def print_centered_multiline(text,end="\n"):
 
 def random_reaction():
     """
-    FO
+    JP+FO
     () -> list
     returns a random reaction from the dictionary 
     """
@@ -145,7 +147,7 @@ print_centered("welcome "+name+", let's begin.")
 
 def random_reaction_str():
     """
-    MC
+    JP+MC
     () -> str
     returns a random reaction string from the dictionary
     """
@@ -171,7 +173,7 @@ def random_reaction_str():
 
 def subed(str_to_sub):
     """
-    AL
+    JP+AL
     str -> str
     returns a string with the numbers in the string subbed with subscripted numbers
     """
@@ -331,7 +333,7 @@ def is_valid_atom(atom_str):
 
 def guess_converter(guess_str):
     """
-    AL
+    JP+AL
     str -> str
     converts the guess string to the proper form of the atom
     eg. converts the name to the symbol if the name is given
