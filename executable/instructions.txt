@@ -1,7 +1,0 @@
-sources: 
-how to add data files: https://stackoverflow.com/questions/41870727/pyinstaller-adding-data-files
-how to use pyinstaller: https://pyinstaller.org/en/stable/usage.html
-how to check opperating system: https://stackoverflow.com/questions/8220108/how-do-i-check-the-operating-system-in-python and https://docs.python.org/3/library/platform.html 
-
-instructions:
-run the executable_creator.py script to make a new single click application appear in the reactle direcotry given that you have the entire project downloaded properly

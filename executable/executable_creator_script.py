@@ -9,21 +9,21 @@ import os
 import platform
 import subprocess
 
-# Determine the platform
-system = platform.system()
-
-
-
+# Determine if the application is a script file or a frozen exe
+if getattr(sys, 'frozen', False):
+   application_path = os.path.dirname(sys.executable)
+elif __file__:
+   application_path = os.path.dirname(__file__)
 # The command to open a new terminal and run a Python script
-if system == 'Windows':
-  command = 'start cmd /k python main.py'
-elif system == 'Linux':
-  command = 'gnome-terminal -e "python main.py"'
-elif system == 'Darwin':
-  command = 'open -a Terminal "python main.py"'
+if platform.system() == 'Windows':
+  command = f'start cmd /k python {os.path.join(application_path, "main.py")}'
+elif platform.system() == 'Linux':
+  command = f'gnome-terminal -e "python {os.path.join(application_path, "main.py")}"'
+elif platform.system() == 'Darwin':
+  command = f'open -a Terminal "python {os.path.join(application_path, "main.py")}"'
 else:
-  print('Unsupported platform must be Windows, Linux or Mac')
-  exit(1)
+ print('Unsupported platform must be Windows, Linux or Mac')
+ exit(1)
 
 
 # Run the command

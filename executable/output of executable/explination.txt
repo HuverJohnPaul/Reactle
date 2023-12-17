@@ -1,2 +1,0 @@
-folder that contains all the outputs from running the executable_creator.py that normally apear in the Reactle direcory in here
-to keep the entire direcotry cleaner, the .
