@@ -1,3 +1,4 @@
+Read "dependencys for required dependencies"
 Game Rules: Reactle
 The game
 Before you can play Reactle, you’ll be prompted to enter your name.
